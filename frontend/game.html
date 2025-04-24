@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fahrschul Tycoon</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  </head>
+  <body>
+    <header id="top-bar">👤 Profil | 💶 Geld: 20.000€ | 🕒 12:00 Uhr</header>
+
+    <div id="main-container">
+      <div id="left-map">
+        <div id="map"></div>
+      </div>
+
+      <div id="right-ui">
+        <div class="row">
+          <div class="box" id="box-anfragen">📥 Neue Anfragen</div>
+          <div class="box" id="box-schueler">👨‍🎓 Fahrschüler</div>
+          <div class="box">🏢 Gebäude + 🚗 Fahrzeuge</div>
+          <div
+            id="buildingMenu"
+            style="
+              display: none;
+              flex-direction: column;
+              gap: 10px;
+              margin-top: 10px;
+            "
+          >
+            <select id="buildingType">
+              <option value="Garage">Garage</option>
+              <option value="Theoriezentrum">Theoriezentrum</option>
+            </select>
+            <input type="text" id="buildingName" placeholder="Gebäudename" />
+            <input
+              type="text"
+              id="addressInput"
+              placeholder="Adresse (optional)"
+            />
+            <button onclick="activateMapPlacement()">Auf Karte setzen</button>
+            <button onclick="confirmBuilding()">Bestätigen</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="box">🔧 erstmal noch leer</div>
+          <div class="box" id="chat-box">
+            <div
+              id="chat-messages"
+              style="flex: 1; overflow-y: auto; max-height: 150px"
+            ></div>
+            <div id="chat-input" style="margin-top: 10px">
+              <input
+                type="text"
+                id="chat-text"
+                placeholder="Nachricht..."
+                style="width: 80%"
+              />
+              <button id="chat-send">Senden</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script type="module" src="main.js"></script>
+
+    <style>
+      #garage-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+
+      #garage-modal-content {
+        background: #222;
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+        width: 80%;
+        max-width: 600px;
+      }
+
+      #garage-modal-content input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+        border: none;
+        background: #333;
+        color: white;
+      }
+
+      #garage-modal-content button {
+        margin-right: 10px;
+        padding: 10px;
+        border: none;
+        border-radius: 6px;
+        background: #444;
+        color: white;
+        cursor: pointer;
+      }
+
+      #garage-modal-content button:hover {
+        background: #555;
+      }
+    </style>
+  </body>
+</html>

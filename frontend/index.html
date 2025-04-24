@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fahrschul Tycoon - Login</title>
+  </head>
+  <body>
+    <h2>Registrieren</h2>
+    <input placeholder="Username" id="regUser" />
+    <input placeholder="Email" id="regEmail" />
+    <input type="password" placeholder="Passwort" id="regPass" />
+    <button onclick="register()">Registrieren</button>
+
+    <h2>Login</h2>
+    <input placeholder="Email" id="logEmail" />
+    <input type="password" placeholder="Passwort" id="logPass" />
+    <button onclick="login()">Einloggen</button>
+
+    <script>
+      async function register() {
+        const res = await fetch("http://localhost:5000/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: document.getElementById("regUser").value,
+            email: document.getElementById("regEmail").value,
+            password: document.getElementById("regPass").value,
+          }),
+        });
+        alert(await res.text());
+      }
+
+      async function login() {
+        const res = await fetch("http://localhost:5000/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: document.getElementById("logEmail").value,
+            password: document.getElementById("logPass").value,
+          }),
+        });
+        const data = await res.json();
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          window.location.href = "game.html";
+        } else {
+          alert(data.msg);
+        }
+      }
+    </script>
+  </body>
+</html>
