@@ -1,0 +1,511 @@
+.overlay-panel {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 550;
+  width: min(360px, calc(100% - 44px));
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+}
+
+.overlay-panel-wide {
+  width: min(1160px, calc(100% - 44px));
+}
+
+.overlay-panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.overlay-copy {
+  margin: 16px 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.overlay-section,
+.building-options,
+.team-card,
+.candidate-card,
+.placement-card,
+.team-list {
+  display: grid;
+  gap: 12px;
+}
+
+.panel-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.filter-button {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-button.active {
+  background: linear-gradient(135deg, var(--accent) 0%, #d14f28 100%);
+  color: #fff;
+  border-color: transparent;
+}
+
+.candidate-card select,
+.candidate-card option {
+  font: inherit;
+}
+
+.schedule-toolbar,
+.schedule-layout,
+.schedule-day-switch,
+.schedule-template-list,
+.schedule-board-card,
+.schedule-calendar-board,
+.schedule-board-grid,
+.schedule-time-column,
+.schedule-slot-column {
+  display: grid;
+  gap: 12px;
+}
+
+.schedule-toolbar {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.schedule-day-switch {
+  grid-template-columns: auto minmax(180px, 280px) auto;
+  align-items: center;
+}
+
+.schedule-layout {
+  grid-template-columns: 280px minmax(0, 1fr) 300px;
+  align-items: start;
+}
+
+.schedule-backlog-card,
+.schedule-list-card {
+  align-self: start;
+}
+
+.schedule-template-list {
+  margin-top: 14px;
+}
+
+.schedule-template-card {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 37, 32, 0.12);
+  background: rgba(255, 255, 255, 0.14);
+  cursor: grab;
+}
+
+.schedule-template-card.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.schedule-template-card strong,
+.schedule-appointment-card strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.schedule-template-meta,
+.schedule-appointment-meta,
+.schedule-board-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.schedule-template-meta span,
+.schedule-appointment-meta span {
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(28, 37, 32, 0.06);
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.schedule-board-card {
+  gap: 16px;
+}
+
+.schedule-board-legend {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.schedule-calendar-board {
+  max-height: 70vh;
+  overflow: auto;
+  min-height: 0;
+}
+
+.schedule-board-grid {
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: start;
+}
+
+.schedule-time-column {
+  gap: 0;
+}
+
+.schedule-time-label {
+  height: 24px;
+  padding-top: 2px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.schedule-slot-column {
+  position: relative;
+  gap: 0;
+  border-left: 1px solid rgba(28, 37, 32, 0.08);
+}
+
+.schedule-slot {
+  height: 24px;
+  border-bottom: 1px solid rgba(28, 37, 32, 0.08);
+  background:
+    linear-gradient(90deg, rgba(228, 87, 46, 0.08) 0, rgba(228, 87, 46, 0.08) 2px, transparent 2px),
+    rgba(255, 255, 255, 0.08);
+  transition: background 160ms ease, box-shadow 160ms ease;
+}
+
+.schedule-slot.is-drop-target {
+  background: rgba(228, 87, 46, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(228, 87, 46, 0.35);
+}
+
+.schedule-appointments-layer {
+  position: absolute;
+  inset: 0 0 0 0;
+  pointer-events: none;
+}
+
+.schedule-appointment-card {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(228, 87, 46, 0.22);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(178, 188, 170, 0.22) 100%);
+  box-shadow: 0 12px 20px rgba(28, 37, 32, 0.08);
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.schedule-appointment-card.is-completed {
+  opacity: 0.7;
+  border-color: rgba(28, 37, 32, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.overlay-section {
+  gap: 14px;
+}
+
+.building-card {
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+}
+
+.building-card strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.building-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.building-select-card {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.building-select-card.is-recommended {
+  border-color: rgba(228, 87, 46, 0.4);
+  box-shadow: 0 16px 28px rgba(228, 87, 46, 0.16);
+}
+
+.building-select-card:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.building-meta,
+.candidate-stats,
+.team-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.building-meta {
+  margin-top: 14px;
+}
+
+.building-meta span,
+.search-status,
+.tutorial-hint {
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(28, 37, 32, 0.06);
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.overlay-close-button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(28, 37, 32, 0.08);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.search-field {
+  gap: 10px;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.search-row input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 37, 32, 0.12);
+  background: rgba(255, 255, 255, 0.14);
+  font: inherit;
+  color: var(--text);
+}
+
+.search-row input:focus {
+  outline: 2px solid rgba(228, 87, 46, 0.22);
+  border-color: rgba(228, 87, 46, 0.4);
+}
+
+.placement-actions,
+.candidate-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.candidate-actions-inline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.candidate-actions-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.placement-actions {
+  margin-top: 16px;
+}
+
+.team-entry {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(28, 37, 32, 0.05);
+}
+
+.team-entry strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.student-progress-grid,
+.debug-actions,
+.exam-question-list,
+.exam-answer-grid,
+.exam-summary-grid,
+.exam-history-list {
+  display: grid;
+  gap: 8px;
+}
+
+.theory-progress-card {
+  display: grid;
+  gap: 8px;
+}
+
+.theory-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.theory-progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(28, 37, 32, 0.08);
+  overflow: hidden;
+}
+
+.theory-progress-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent) 0%, #d14f28 100%);
+}
+
+.student-progress-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.progress-pill {
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(28, 37, 32, 0.06);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.debug-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.team-entry.is-highlight {
+  border: 1px solid rgba(228, 87, 46, 0.22);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(178, 188, 170, 0.18) 100%);
+}
+
+.exam-toolbar,
+.exam-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exam-question-list {
+  margin-top: 14px;
+}
+
+.exam-question-card {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 37, 32, 0.12);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.exam-question-card strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.exam-answer-grid {
+  margin-top: 12px;
+}
+
+.exam-answer-button {
+  width: 100%;
+  text-align: left;
+}
+
+.exam-answer-button.is-selected,
+.exam-answer-button:disabled {
+  border-color: rgba(228, 87, 46, 0.28);
+  background: rgba(228, 87, 46, 0.12);
+}
+
+.exam-summary-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 10px;
+}
+
+.exam-history-list {
+  margin-top: 10px;
+}
+
+.debug-button {
+  border: 1px dashed rgba(28, 37, 32, 0.18);
+  border-radius: 12px;
+  padding: 9px 10px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.inline-select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(28, 37, 32, 0.12);
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text);
+}
+
+.tutorial-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 650;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(19, 24, 21, 0.34);
+  backdrop-filter: blur(6px);
+}
+
+.tutorial-card {
+  width: min(560px, 100%);
+  padding: 28px;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: var(--shadow);
+}
+
+.tutorial-copy {
+  margin: 14px 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tutorial-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}

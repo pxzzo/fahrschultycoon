@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Driving School Empire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  >
+  <link rel="stylesheet" href="src/styles/main.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div class="language-switcher" aria-label="Language switcher">
+      <span class="language-switcher-label" data-i18n="language.label">Sprache</span>
+      <div class="language-switcher-buttons">
+        <button class="language-button active" type="button" data-language="de">DE</button>
+        <button class="language-button" type="button" data-language="en">EN</button>
+      </div>
+    </div>
+
+    <section id="authScreen" class="auth-layout">
+      <div class="brand-panel">
+        <p class="eyebrow" data-i18n="auth.eyebrow">Fahrschul Manager</p>
+        <h1>Driving School Empire</h1>
+        <p class="hero-copy" data-i18n="auth.hero">
+          Melde dich an oder registriere dein Profil. Nach dem Login landest du direkt in deiner Spielwelt.
+        </p>
+        <div class="brand-cards">
+          <article class="info-card">
+            <strong data-i18n="auth.loginCard.title">Einloggen</strong>
+            <p data-i18n="auth.loginCard.text">Steig direkt in dein Spiel ein und geh ohne Umwege auf die Karte.</p>
+          </article>
+          <article class="info-card">
+            <strong data-i18n="auth.registerCard.title">Registrieren</strong>
+            <p data-i18n="auth.registerCard.text">Erstelle ein neues Profil und starte sofort mit deinem Fahrschul-Imperium.</p>
+          </article>
+        </div>
+      </div>
+
+      <section class="auth-panel">
+        <div class="panel-header auth-header">
+          <div>
+            <p class="eyebrow" data-i18n="auth.menuEyebrow">Hauptmenue</p>
+            <h2 data-i18n="auth.welcomeTitle">Willkommen</h2>
+          </div>
+          <p id="authStatus" class="status-line" data-i18n="auth.status.default">Bitte melde dich an oder registriere ein neues Profil.</p>
+        </div>
+
+        <div class="auth-tabs">
+          <button id="showLoginBtn" class="tab-button active" type="button" data-i18n="auth.loginTab">Einloggen</button>
+          <button id="showRegisterBtn" class="tab-button" type="button" data-i18n="auth.registerTab">Registrieren</button>
+        </div>
+
+        <form id="loginForm" class="auth-form">
+          <label class="field">
+            <span data-i18n="auth.username">Benutzername</span>
+            <input name="username" type="text" autocomplete="username" required>
+          </label>
+          <label class="field">
+            <span data-i18n="auth.password">Passwort</span>
+            <input name="password" type="password" autocomplete="current-password" required>
+          </label>
+          <button class="primary-button auth-submit" type="submit" data-i18n="auth.loginSubmit">Einloggen</button>
+        </form>
+
+        <form id="registerForm" class="auth-form hidden">
+          <label class="field">
+            <span data-i18n="auth.username">Benutzername</span>
+            <input name="username" type="text" autocomplete="username" required>
+          </label>
+          <label class="field">
+            <span data-i18n="auth.email">E-Mail</span>
+            <input name="email" type="email" autocomplete="email" required>
+          </label>
+          <label class="field">
+            <span data-i18n="auth.password">Passwort</span>
+            <input name="password" type="password" autocomplete="new-password" required>
+          </label>
+          <button class="primary-button auth-submit" type="submit" data-i18n="auth.registerSubmit">Profil erstellen</button>
+        </form>
+
+        <div class="auth-hint">
+          <strong data-i18n="auth.hintTitle">Hinweis</strong>
+          <p data-i18n="auth.hintText">Konten werden aktuell lokal im Browser gespeichert, damit das Hauptmenue erstmal simpel bleibt.</p>
+        </div>
+      </section>
+    </section>
+
+    <section id="gameScreen" class="game-screen hidden">
+      <header class="game-header">
+        <div class="brand-lockup">
+          <div class="game-logo" aria-hidden="true">
+            <span class="wheel-ring"></span>
+            <span class="wheel-center"></span>
+          </div>
+          <div>
+            <p class="eyebrow" data-i18n="game.brandEyebrow">Driving School Empire</p>
+            <h2 class="game-title">Driving School Empire</h2>
+          </div>
+        </div>
+        <div class="clock-card">
+          <span data-i18n="game.clock">Uhrzeit</span>
+          <strong id="clockLabel">00:00:00</strong>
+          <small id="clockMetaLabel">Woche 1 | Tag 1</small>
+        </div>
+        <div class="clock-card balance-card">
+          <span data-i18n="game.balance">Kontostand</span>
+          <strong id="balanceLabel">0 EUR</strong>
+        </div>
+        <div class="time-controls">
+          <div class="time-speed-switch" id="timeSpeedSwitch">
+            <button class="speed-button active" type="button" data-time-speed="1">1x</button>
+            <button class="speed-button" type="button" data-time-speed="5">5x</button>
+            <button class="speed-button" type="button" data-time-speed="15">15x</button>
+          </div>
+          <button id="plannerMenuBtn" class="secondary-button planner-open-button" type="button" data-i18n="schedule.openButton">Planer</button>
+        </div>
+      </header>
+
+      <main class="map-stage">
+        <div id="map" class="map-view" aria-label="OpenStreetMap Karte" data-i18n-aria-label="game.mapAria"></div>
+        <section id="buildingsPanel" class="overlay-panel hidden" aria-live="polite">
+          <div class="overlay-panel-header">
+            <div>
+              <p class="eyebrow" data-i18n="building.eyebrow">Bauplatz</p>
+              <h3 id="buildingsPanelTitle">Erstes Buero platzieren</h3>
+            </div>
+            <button id="closeBuildingsPanelBtn" class="overlay-close-button" type="button" aria-label="Gebaeude schliessen" data-i18n-aria-label="building.closeAria">x</button>
+          </div>
+
+          <div id="buildingSelection" class="overlay-section hidden">
+            <p id="buildingSelectionCopy" class="overlay-copy" data-i18n="building.selectionCopy">
+              Waehle dein erstes Buero. Fuer den Tutorialstart beginnen wir mit der kleinsten Variante.
+            </p>
+            <div class="building-options">
+              <button id="starterOfficeBtn" class="building-card building-select-card" type="button" data-blueprint-id="starter-office">
+                <strong data-i18n="office.starter.name">KiezBox Startbuero</strong>
+                <p data-i18n="office.starter.description">Kompaktes Einstiegsbuero fuer die ersten Fahrschueler und Verwaltung.</p>
+                <div class="building-meta">
+                  <span id="starterOfficeType">Typ: Mikro-Standort</span>
+                  <span id="starterOfficePrice">Preis: 25.000 EUR</span>
+                </div>
+              </button>
+
+              <button id="starterGarageBtn" class="building-card building-select-card" type="button" data-blueprint-id="starter-garage">
+                <strong data-i18n="garage.starter.name">DepotNest Startgarage</strong>
+                <p data-i18n="garage.starter.description">Kleine Servicegarage fuer Uebungsfahrzeuge, Wartung und kurze Standzeiten.</p>
+                <div class="building-meta">
+                  <span id="starterGarageType">Typ: Kompakt-Garage</span>
+                  <span id="starterGaragePrice">Preis: 18.000 EUR</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div id="placementSection" class="overlay-section hidden">
+            <p class="overlay-copy" data-i18n="building.placementCopy">
+              Suche einen Ort oder verschiebe den Marker direkt auf der Karte. Mit dem Bau bestaetigst du den finalen Standort.
+            </p>
+
+            <label class="field search-field">
+              <span data-i18n="building.searchLabel">Ort suchen</span>
+              <div class="search-row">
+                <input id="locationSearchInput" type="search" placeholder="z. B. Alexanderplatz, Berlin" data-i18n-placeholder="building.searchPlaceholder">
+                <button id="searchLocationBtn" class="secondary-button" type="button" data-i18n="building.searchButton">Suchen</button>
+              </div>
+            </label>
+
+            <div id="searchStatus" class="search-status">Noch kein Standort gewaehlt.</div>
+
+            <div class="building-card placement-card">
+              <strong id="selectedOfficeName">KiezBox Startbuero</strong>
+              <p id="selectedOfficeDescription">Bereit fuer dein erstes kleines Verwaltungsbuero.</p>
+              <div class="building-meta">
+                <span id="selectedOfficeType">Typ: Mikro-Standort</span>
+                <span id="selectedOfficePrice">Preis: 25.000 EUR</span>
+              </div>
+              <div class="placement-actions">
+                <button id="buildOfficeBtn" class="primary-button" type="button" data-i18n="building.buildButton">Bauen</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="instructorsPanel" class="overlay-panel hidden" aria-live="polite">
+          <div class="overlay-panel-header">
+            <div>
+              <p class="eyebrow" data-i18n="instructor.eyebrow">Personal</p>
+              <h3 id="instructorsPanelTitle" data-i18n="instructor.panelTitle">Fahrlehrer einstellen</h3>
+            </div>
+            <button id="closeInstructorsPanelBtn" class="overlay-close-button" type="button" aria-label="Fahrlehrer schliessen" data-i18n-aria-label="instructor.closeAria">x</button>
+          </div>
+          <p id="instructorsPanelCopy" class="overlay-copy" data-i18n="instructor.panelCopy">
+            Stelle deinen ersten Fahrlehrer ein, damit du Fahrstunden planen und dein Gebiet sinnvoll bedienen kannst.
+          </p>
+          <div id="instructorCandidates" class="overlay-section"></div>
+          <div class="building-card team-card">
+            <strong data-i18n="instructor.teamTitle">Dein Team</strong>
+            <div id="instructorTeamList" class="team-list"></div>
+          </div>
+        </section>
+
+        <section id="vehiclesPanel" class="overlay-panel hidden" aria-live="polite">
+          <div class="overlay-panel-header">
+            <div>
+              <p class="eyebrow" data-i18n="vehicle.eyebrow">Fuhrpark</p>
+              <h3 id="vehiclesPanelTitle" data-i18n="vehicle.panelTitle">Autos kaufen</h3>
+            </div>
+            <button id="closeVehiclesPanelBtn" class="overlay-close-button" type="button" aria-label="Autos schliessen" data-i18n-aria-label="vehicle.closeAria">x</button>
+          </div>
+          <p id="vehiclesPanelCopy" class="overlay-copy" data-i18n="vehicle.panelCopy">
+            Kaufe dein erstes Ausbildungsauto und weise es einem Fahrlehrer zu, damit Fahrstunden stattfinden koennen.
+          </p>
+          <div id="vehicleShopList" class="overlay-section"></div>
+          <div class="building-card team-card">
+            <strong data-i18n="vehicle.fleetTitle">Dein Fuhrpark</strong>
+            <div id="vehicleFleetList" class="team-list"></div>
+          </div>
+        </section>
+
+        <section id="studentsPanel" class="overlay-panel hidden" aria-live="polite">
+          <div class="overlay-panel-header">
+            <div>
+              <p class="eyebrow" data-i18n="student.eyebrow">Anfragen</p>
+              <h3 id="studentsPanelTitle" data-i18n="student.panelTitle">Fahrschueler verwalten</h3>
+            </div>
+            <button id="closeStudentsPanelBtn" class="overlay-close-button" type="button" aria-label="Fahrschueler schliessen" data-i18n-aria-label="student.closeAria">x</button>
+          </div>
+          <p id="studentsPanelCopy" class="overlay-copy" data-i18n="student.panelCopy">
+            Pruefe neue Bewerbungen, nimm passende Fahrschueler an oder lehne sie ab und weise angenommene Schueler direkt zu.
+          </p>
+          <div id="studentFilters" class="panel-filters">
+            <button class="filter-button active" type="button" data-student-filter="applicants" data-i18n="student.filterApplicants">Bewerber</button>
+            <button class="filter-button" type="button" data-student-filter="active" data-i18n="student.filterActive">Aktiv</button>
+            <button class="filter-button" type="button" data-student-filter="ready" data-i18n="student.filterReady">Pruefungsbereit</button>
+            <button class="filter-button" type="button" data-student-filter="completed" data-i18n="student.filterCompleted">Abgeschlossen</button>
+          </div>
+          <div id="studentApplicantsList" class="overlay-section"></div>
+          <div id="studentExamQueueSection" class="building-card team-card hidden">
+            <strong data-i18n="student.examQueueTitle">Theoriepruefungen</strong>
+            <div id="studentExamQueueList" class="team-list"></div>
+          </div>
+          <div id="studentTheoryExamSection" class="building-card team-card hidden">
+            <strong data-i18n="student.examStageTitle">Pruefung aktiv</strong>
+            <div id="studentTheoryExamStage" class="team-list"></div>
+          </div>
+          <div id="studentActiveSection" class="building-card team-card">
+            <strong data-i18n="student.activeTitle">Aktive Fahrschueler</strong>
+            <div id="studentActiveList" class="team-list"></div>
+          </div>
+          <div id="studentCompletedSection" class="building-card team-card">
+            <strong data-i18n="student.completedTitle">Archiv</strong>
+            <div id="studentCompletedList" class="team-list"></div>
+          </div>
+        </section>
+
+        <section id="schedulePanel" class="overlay-panel hidden overlay-panel-wide" aria-live="polite">
+          <div class="overlay-panel-header">
+            <div>
+              <p class="eyebrow" data-i18n="schedule.eyebrow">Tagesplaner</p>
+              <h3 id="schedulePanelTitle" data-i18n="schedule.panelTitle">Kalender und Termine</h3>
+            </div>
+            <button id="closeSchedulePanelBtn" class="overlay-close-button" type="button" aria-label="Planer schliessen" data-i18n-aria-label="schedule.closeAria">x</button>
+          </div>
+          <p id="schedulePanelCopy" class="overlay-copy" data-i18n="schedule.panelCopy">
+            Plane minutengenaue Termine fuer Fahrlehrer, Fahrzeuge und Fahrschueler. Konflikte werden direkt blockiert.
+          </p>
+          <div id="scheduleSummary" class="building-card team-card"></div>
+          <div class="schedule-toolbar">
+            <div class="schedule-day-switch">
+              <button id="schedulePrevDayBtn" class="secondary-button" type="button" data-i18n="schedule.prevDay">Zurueck</button>
+              <select id="scheduleDaySelect" class="inline-select"></select>
+              <button id="scheduleNextDayBtn" class="secondary-button" type="button" data-i18n="schedule.nextDay">Weiter</button>
+            </div>
+            <div id="scheduleStatus" class="search-status" data-i18n="schedule.status.idle">Noch kein Termin geplant.</div>
+          </div>
+          <div class="schedule-layout">
+            <div class="building-card schedule-backlog-card">
+              <strong data-i18n="schedule.backlogTitle">Planbare Bausteine</strong>
+              <p data-i18n="schedule.backlogCopy">Ziehe vorbereitete Unterrichtsbausteine direkt in den Tagesplan.</p>
+              <div id="scheduleTemplateList" class="schedule-template-list"></div>
+            </div>
+            <div class="building-card schedule-board-card">
+              <strong data-i18n="schedule.boardTitle">Tagesansicht</strong>
+              <div class="schedule-board-legend">
+                <span data-i18n="schedule.boardLegend">Drag and drop auf eine Zeitzeile. Bereits geplante Termine kannst du ebenfalls verschieben.</span>
+              </div>
+              <div id="scheduleCalendarBoard" class="schedule-calendar-board"></div>
+            </div>
+            <div class="building-card team-card schedule-list-card">
+              <strong data-i18n="schedule.listTitle">Terminliste</strong>
+              <div id="scheduleAppointmentList" class="team-list"></div>
+            </div>
+            <div class="building-card team-card schedule-list-card">
+              <strong data-i18n="schedule.historyTitle">Verlauf</strong>
+              <div id="scheduleHistoryList" class="team-list"></div>
+            </div>
+          </div>
+          <div id="scheduleAutoHint" class="tutorial-hint" data-i18n="schedule.autoHint">
+            Automatische Einsatzplanung kommt spaeter. Die Datenstruktur dafuer ist bereits vorbereitet.
+          </div>
+        </section>
+
+        <nav class="radial-menu" aria-label="Spielmenues" data-i18n-aria-label="game.menuAria">
+          <button id="buildingsMenuBtn" class="radial-item radial-item-buildings" type="button">
+            <span class="radial-item-icon">B</span>
+            <span class="radial-item-label" data-i18n="game.buildings">Gebaeude</span>
+          </button>
+          <button id="instructorsMenuBtn" class="radial-item radial-item-instructors" type="button">
+            <span class="radial-item-icon">F</span>
+            <span class="radial-item-label" data-i18n="game.instructors">Fahrlehrer</span>
+          </button>
+          <button id="vehiclesMenuBtn" class="radial-item radial-item-vehicles" type="button">
+            <span class="radial-item-icon">A</span>
+            <span class="radial-item-label" data-i18n="game.vehicles">Autos</span>
+          </button>
+          <button id="studentsMenuBtn" class="radial-item radial-item-students" type="button">
+            <span class="radial-item-icon">S</span>
+            <span class="radial-item-label" data-i18n="game.students">Fahrschueler</span>
+          </button>
+          <button class="radial-core" type="button" aria-label="Menue oeffnen" data-i18n-aria-label="game.openMenuAria">
+            <span class="radial-core-ring"></span>
+            <span class="radial-core-dot"></span>
+          </button>
+        </nav>
+
+        <section id="tutorialModal" class="tutorial-modal hidden" aria-live="polite">
+          <div class="tutorial-card">
+            <p class="eyebrow" data-i18n="tutorial.eyebrow">Tutorial</p>
+            <h3 id="tutorialTitle">Willkommen in Driving School Empire</h3>
+            <p id="tutorialText" class="tutorial-copy">
+              Du startest mit einem kleinen Budget und baust Schritt fuer Schritt dein Fahrschul-Imperium auf.
+            </p>
+            <div id="tutorialHint" class="tutorial-hint">
+              Im ersten Schritt platzieren wir dein erstes Buero auf der Karte.
+            </div>
+            <div class="tutorial-actions">
+              <button id="tutorialPrimaryBtn" class="primary-button" type="button">Tutorial beginnen</button>
+              <button id="tutorialSecondaryBtn" class="secondary-button hidden" type="button">Spaeter</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script type="module" src="src/js/app.js"></script>
+</body>
+</html>

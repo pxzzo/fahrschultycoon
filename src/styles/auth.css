@@ -1,0 +1,129 @@
+.app-shell {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0;
+  position: relative;
+}
+
+.brand-panel,
+.auth-panel,
+.game-header,
+.clock-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 24px;
+  min-height: calc(100vh - 64px);
+  align-items: stretch;
+}
+
+.brand-panel,
+.auth-panel {
+  border-radius: 28px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-panel::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -40px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(228, 87, 46, 0.32), transparent 70%);
+}
+
+.hero-copy,
+.status-line,
+.info-card p,
+.auth-hint p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-copy {
+  max-width: 54ch;
+  line-height: 1.6;
+  margin: 14px 0 0;
+}
+
+.brand-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.info-card,
+.auth-hint {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.info-card strong,
+.auth-hint strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.info-card p,
+.auth-hint p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.auth-panel {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 6px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--line);
+}
+
+.tab-button {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: transparent;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.tab-button.active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, #d14f28 100%);
+  box-shadow: 0 12px 24px rgba(228, 87, 46, 0.24);
+}
+
+.auth-form {
+  display: grid;
+  gap: 14px;
+}
+
+.auth-submit {
+  margin-top: 6px;
+}

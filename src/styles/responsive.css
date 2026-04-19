@@ -1,0 +1,87 @@
+@media (max-width: 980px) {
+  .auth-layout,
+  .brand-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    width: min(100% - 20px, 1200px);
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .language-switcher {
+    position: static;
+    margin-bottom: 14px;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .brand-panel,
+  .auth-panel,
+  .game-header,
+  .clock-card,
+  .map-view {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .game-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .game-screen {
+    padding: 12px;
+  }
+
+  .clock-card {
+    width: 100%;
+    text-align: left;
+  }
+
+  .search-row,
+  .tutorial-actions {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .placement-actions {
+    justify-content: stretch;
+  }
+
+  .placement-actions .primary-button,
+  .tutorial-actions .primary-button,
+  .tutorial-actions .secondary-button {
+    width: 100%;
+  }
+
+  .map-view {
+    min-height: 0;
+  }
+
+  .overlay-panel {
+    top: 14px;
+    right: 14px;
+    width: calc(100% - 28px);
+  }
+
+  .radial-menu {
+    width: 180px;
+    height: 180px;
+    bottom: 16px;
+  }
+
+  .radial-core {
+    width: 72px;
+    height: 72px;
+  }
+
+  .radial-menu:hover .radial-item,
+  .radial-menu:focus-within .radial-item,
+  .radial-item.is-active {
+    transform: translate(-50%, -50%) translateY(-90px);
+  }
+}
